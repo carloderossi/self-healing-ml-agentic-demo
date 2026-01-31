@@ -55,8 +55,8 @@ REM ================================
 start "" ollama serve
 
 REM ================================
-REM Run QWEN model
+REM Run OLLAMA model
 REM ================================
-:: ollama run deepseek-r1:7b
+ollama run qwen2.5:7b-instruct "hello"
 :: use qwen2.5:3b-instruct for testing
-ollama run qwen2.5:3b-instruct "hello"
+:: ollama run qwen2.5:3b-instruct "hello"

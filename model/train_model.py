@@ -14,6 +14,7 @@ def load_config():
         return yaml.safe_load(f)
 
 def train(train_path: str):
+    print(f"[TRAIN] Starting training with data from {train_path}")
     cfg = load_config()
     df = pd.read_csv(train_path)
 

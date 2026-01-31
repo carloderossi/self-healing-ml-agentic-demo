@@ -6,9 +6,9 @@ features:
 llm:
   endpoint: http://localhost:11434
   max_tokens: 512
-  model: qwen2.5:3b-instruct
+  model: qwen2.5:7b-instruct
   provider: ollama
-  temperature: 0.2
+  temperature: 0.5
 model:
   random_state: 42
   type: logistic_regression

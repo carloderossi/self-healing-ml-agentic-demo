@@ -58,11 +58,14 @@ class LLMClient:
         }
 
         try:
-            response = requests.post(url, json=payload, timeout=60)
+            response = requests.post(url, json=payload, timeout=180)
             response.raise_for_status()
+            # print(f"**[DEBUG] Response : {response.text}")
             data = response.json()
+            # print(f"**[DEBUG] Data : {data}")
             return data.get("message", {}).get("content", "")
         except Exception as e:
+            print(f"**[ERROR] Ollama request failed: {e}")
             return f"[LLM ERROR] Ollama request failed: {e}"
 
     # -----------------------------
