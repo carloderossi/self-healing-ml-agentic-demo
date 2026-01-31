@@ -1,0 +1,10 @@
+{
+  "baseline_accuracy": 0.6666666666666666,
+  "current_accuracy": 0.75,
+  "accuracy_drop": -0.08333333333333337,
+  "psi_by_feature": {
+    "age": 0.0,
+    "income": 4.660920865609595,
+    "balance": 0.0
+  }
+}

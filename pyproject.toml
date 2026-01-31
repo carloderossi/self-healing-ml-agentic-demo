@@ -1,0 +1,30 @@
+[project]
+name = "self-healing-ml-agentic-demo"
+version = "0.1.0"
+description = "A minimal agentic system that interprets monitoring data, suggests fixes, and learns over time."
+authors = [
+    { name = "Carlo De Rossi", email = "cdr.aidpml@outlook.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.26",
+    "scikit-learn>=1.3",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+    "joblib>=1.3",
+    "requests>=2.31", 
+]
+
+#[build-system]
+#requires = ["hatchling"]
+#build-backend = "hatchling.build"
+
+#[tool.uv]
+# Optional: speed up installs by using uv's resolver
+#index-url = "https://pypi.org/simple"
+
+#[tool.uv.sources]
+# Add local editable packages if you later split agents/model into subpackages
