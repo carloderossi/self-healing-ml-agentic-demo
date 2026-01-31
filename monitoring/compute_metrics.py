@@ -10,7 +10,15 @@ CONFIG_PATH = Path(__file__).parents[1] / "model" / "config.yaml"
 def load_config():
     with open(CONFIG_PATH, "r") as f:
         return yaml.safe_load(f)
-
+    
+'''
+    PSI — Population Stability Index — is a statistical measure used in ML monitoring to quantify 
+    how much a feature’s distribution has shifted between two datasets, typically:
+    - Baseline (training data or a stable past period)
+    - Current (new production data)
+    It’s one of the most widely used drift metrics in risk modeling, credit scoring, 
+    and production ML systems because it’s simple, interpretable, and works well for both continuous and categorical features.
+'''
 def population_stability_index(expected, actual, bins=10):
     e_perc, _ = np.histogram(expected, bins=bins)
     a_perc, _ = np.histogram(actual, bins=bins)

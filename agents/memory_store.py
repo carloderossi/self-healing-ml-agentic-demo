@@ -22,3 +22,11 @@ class MemoryStore:
                     continue
                 incidents.append(json.loads(line))
         return incidents
+    
+    def load_last(self) -> Dict[str, Any] | None:
+        """Return the most recent incident, or None if memory is empty."""
+        incidents = self.load_all()
+        if not incidents:
+            return None
+        return incidents[-1]
+

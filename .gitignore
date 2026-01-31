@@ -1,2 +1,7 @@
 /.venv
 /uv.lock
+/agents/__pycache__/
+/model/__pycache__/
+/monitoring/__pycache__/
+/simulations/__pycache__/
+/.vscode/

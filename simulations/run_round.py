@@ -3,9 +3,15 @@ from model.train_model import train
 from model.predict import predict
 from monitoring.compute_metrics import compute_metrics
 from agents.orchestrator import Orchestrator
+from agents.memory_store import MEMORY_PATH
+import shutil
 
 DATA_DIR = Path("data")
 MON_DIR = Path("monitoring")
+
+# Clean memory before each simulation run: this ensures no prior state affects the demo
+open(MEMORY_PATH, "w").close()
+shutil.copy("data/train_original.csv", "data/train.csv")
 
 def run_demo():
     # Round 0: baseline
