@@ -14,7 +14,7 @@ model:
   type: logistic_regression
 monitoring:
   accuracy_drop_threshold: 0.05
-  psi_threshold: 0.8
+  psi_threshold: 1.0
 retrain:
   enabled: true
   min_samples: 500

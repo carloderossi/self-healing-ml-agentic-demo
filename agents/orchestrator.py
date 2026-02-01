@@ -11,6 +11,7 @@ from agents.retrainer import Retrainer
 from agents.data_generator import SyntheticDataGenerator
 import pandas as pd
 
+''' THIS CLASS HAS BEEN DEPRECATED IN FAVOR OF THE LangGraph WORKFLOW-BASED ORCHESTRATOR IN workflow.py'''
 class Orchestrator:
     def __init__(self):
         self.config_path = Path("model/config.yaml")

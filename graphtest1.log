@@ -1,0 +1,55 @@
+
+=== ROUND 0: BASELINE ===
+[TRAIN] Starting training with data from data\train.csv
+[TRAIN] Validation accuracy: 0.667
+
+=== ROUND 1: DRIFT ===
+[MONITORING] Report written to monitoring\drift_report_round1.json
+
+[GRAPH] === Round 1 ===
+
+[MONITORING_INTERPRETER] Raw LLM response:
+```json
+{
+  "issue_type": "unknown",
+  "suspect_features": [],
+  "severity": "low",
+  "reasoning": "No suspect features with PSI > 0.1 were identified, and there is no accuracy drop significant enough to indicate a severe issue. The current accuracy (0.875) is higher than the baseline accuracy (0.6667), which suggests an improvement rather than a drift issue."
+}
+```
+
+[GRAPH] Diagnosis: {'issue_type': 'unknown', 'suspect_features': [], 'severity': 'low', 'reasoning': 'No suspect features with PSI > 0.1 were identified, and there is no accuracy drop significant enough to indicate a severe issue. The current accuracy (0.875) is higher than the baseline accuracy (0.6667), which suggests an improvement rather than a drift issue.'}
+[GRAPH] Config suggestion: {'changes': {}, 'rationale': 'No significant issues were identified, and the current model performance has improved compared to the baseline.', 'should_retrain': False}
+[GRAPH] Should retrain: False
+[GRAPH] Data suggestion: {'data_checks': ['Add validation: income >= 0', 'Monitor null rate for age'], 'rationale': 'Common issues when drift appears on numeric features.'}
+[GRAPH] Incident stored in memory.
+
+=== ROUND 2: DRIFT ===
+[MONITORING] Report written to monitoring\drift_report_round2.json
+
+[GRAPH] === Round 2 ===
+
+[MONITORING_INTERPRETER] Raw LLM response:
+{
+  "issue_type": "data_drift",
+  "suspect_features": ["income"],
+  "severity": "medium",
+  "reasoning": "The feature 'income' has a PSI value of 4.66, which is significantly higher than the threshold of 0.1, indicating potential data drift. Additionally, there is an accuracy drop of -0.083, suggesting a decrease in model performance. Compared to past incidents, where no suspect features were identified and the current accuracy was higher than the baseline, this round shows a more pronounced shift, indicative of a medium severity issue."
+}
+
+[GRAPH] Diagnosis: {'issue_type': 'data_drift', 'suspect_features': ['income'], 'severity': 'medium', 'reasoning': "The feature 'income' has a PSI value of 4.66, which is significantly higher than the threshold of 0.1, indicating potential data drift. Additionally, there is an accuracy drop of -0.083, suggesting a decrease in model performance. Compared to past incidents, where no suspect features were identified and the current accuracy was higher than the baseline, this round shows a more pronounced shift, indicative of a medium severity issue."}
+[GRAPH] Config suggestion: {'changes': {'monitoring.psi_threshold': 1.0}, 'rationale': "The PSI value for 'income' is significantly high, indicating severe data drift. Increasing the psi_threshold will help in triggering a retraining more promptly.", 'should_retrain': True}
+[GRAPH] Should retrain: True
+[GRAPH] Data suggestion: {'data_checks': ['Add validation: income >= 0', 'Monitor null rate for age'], 'rationale': 'Common issues when drift appears on numeric features.'}
+[GRAPH] Retraining triggered...
+[RETRAIN] Starting retraining...
+[TRAIN] Starting training with data from data/train.csv
+[TRAIN] Validation accuracy: 0.667
+[RETRAIN] New validation accuracy: 0.6666666666666666
+[GRAPH] Retraining ineffective — acquiring new data...
+[GRAPH] Retraining with new data...
+[RETRAIN] Starting retraining...
+[TRAIN] Starting training with data from data/train.csv
+[TRAIN] Validation accuracy: 0.806
+[RETRAIN] New validation accuracy: 0.8058252427184466
+[GRAPH] Incident stored in memory.

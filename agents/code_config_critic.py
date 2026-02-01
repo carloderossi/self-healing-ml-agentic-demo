@@ -4,6 +4,7 @@ from .llm_client import LLMClient
 
 CONFIG_PATH = Path(__file__).parents[1] / "model" / "config.yaml"
 
+''' THIS CLASS HAS BEEN DEPRECATED IN FAVOR OF ConfigCritic IN config_critic.py'''
 class CodeConfigCritic:
     def __init__(self, llm: LLMClient):
         self.llm = llm
