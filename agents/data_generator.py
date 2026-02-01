@@ -37,7 +37,10 @@ class SyntheticDataGenerator:
 
         # === DEFAULT FLAG (binary) ===
         # Higher income → lower default probability
-        prob_default = 1 / (1 + np.exp((df["income"] - df["income"].median()) / 5000))
+        #prob_default = 1 / (1 + np.exp((df["income"] - df["income"].median()) / 5000))
+        x = (df["income"] - df["income"].median()) / 5000
+        x = np.clip(x, -50, 50)  # prevent overflow
+        prob_default = 1 / (1 + np.exp(x))
         df["default"] = (np.random.rand(n_samples) < prob_default).astype(int)
 
         # === LABEL (binary) ===
