@@ -1,0 +1,59 @@
+
+=== ROUND 0: BASELINE ===
+[TRAIN] Starting training with data from data\train.csv
+[TRAIN] Validation accuracy: 0.667
+
+=== ROUND 1: DRIFT ===
+[MONITORING] Report written to monitoring\drift_report_round1.json
+
+[GRAPH] === Round 1 ===
+
+[MONITORING_INTERPRETER] Raw LLM response:
+```json
+{
+  "issue_type": "data_drift",
+  "suspect_features": [],
+  "severity": "low",
+  "reasoning": "No suspect features identified with PSI > 0.1, and the current accuracy of 0.875 is an improvement from the baseline accuracy of 0.6667. There are no recent past incidents to compare against, but the significant accuracy drop of -0.2083 suggests a potential issue that warrants further investigation."
+}
+```
+
+[GRAPH] Diagnosis: {'issue_type': 'data_drift', 'suspect_features': [], 'severity': 'low', 'reasoning': 'No suspect features identified with PSI > 0.1, and the current accuracy of 0.875 is an improvement from the baseline accuracy of 0.6667. There are no recent past incidents to compare against, but the significant accuracy drop of -0.2083 suggests a potential issue that warrants further investigation.'}
+[GRAPH] Memory summary generated.
+[GRAPH] Config suggestion: {'changes': {'monitoring.psi_threshold': 0.15}, 'rationale': 'Lower the PSI threshold to more sensitively detect potential data drift, given the significant accuracy drop observed.', 'should_retrain': False}
+[GRAPH] Should retrain: False
+[GRAPH] Data suggestion: {'data_checks': ['Add validation: income >= 0', 'Monitor null rate for age'], 'rationale': 'Common issues when drift appears on numeric features.'}
+[GRAPH] Incident stored in memory.
+
+=== ROUND 2: DRIFT ===
+[MONITORING] Report written to monitoring\drift_report_round2.json
+
+[GRAPH] === Round 2 ===
+
+[MONITORING_INTERPRETER] Raw LLM response:
+{
+  "issue_type": "data_drift",
+  "suspect_features": ["income"],
+  "severity": "medium",
+  "reasoning": "The feature 'income' has a PSI value of 4.66, which is significantly above the threshold of 0.1, indicating potential data drift. Additionally, there was an accuracy drop of -0.0833, and comparing this round with past incidents reveals that while no features were flagged in the previous round due to PSI > 0.1, the significant accuracy drop warrants further investigation into the 'income' feature as a suspect."
+}
+
+[GRAPH] Diagnosis: {'issue_type': 'data_drift', 'suspect_features': ['income'], 'severity': 'medium', 'reasoning': "The feature 'income' has a PSI value of 4.66, which is significantly above the threshold of 0.1, indicating potential data drift. Additionally, there was an accuracy drop of -0.0833, and comparing this round with past incidents reveals that while no features were flagged in the previous round due to PSI > 0.1, the significant accuracy drop warrants further investigation into the 'income' feature as a suspect."}
+[GRAPH] Memory summary generated.
+[GRAPH] Config suggestion: {'changes': {'monitoring.psi_threshold': 0.2, 'retrain.min_samples': 1000}, 'rationale': 'Increase the PSI threshold to 0.2 for more sensitive detection of data drift, and increase the minimum samples required for retraining to ensure robust model updates.', 'should_retrain': True}
+[GRAPH] Should retrain: True
+[GRAPH] Data suggestion: {'data_checks': ['Add validation: income >= 0', 'Monitor null rate for age'], 'rationale': 'Common issues when drift appears on numeric features.'}
+[GRAPH] Retraining triggered...
+[RETRAIN] Starting retraining...
+[TRAIN] Starting training with data from data/train.csv
+[TRAIN] Validation accuracy: 0.667
+[RETRAIN] New validation accuracy: 0.6666666666666666
+[GRAPH] Retraining ineffective — acquiring new data...
+C:\Carlo\projects\self-healing-ml-agentic-demo\.venv\Lib\site-packages\pandas\core\arraylike.py:402: RuntimeWarning: overflow encountered in exp
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+[GRAPH] Retraining with new data...
+[RETRAIN] Starting retraining...
+[TRAIN] Starting training with data from data/train.csv
+[TRAIN] Validation accuracy: 0.903
+[RETRAIN] New validation accuracy: 0.9029126213592233
+[GRAPH] Incident stored in memory.

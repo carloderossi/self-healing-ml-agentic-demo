@@ -42,7 +42,7 @@ Current config:
 Diagnosis for this round:
 {json.dumps(diagnosis, indent=2)}
 
-Recent past incidents:
+Use the historical summary to avoid repeating ineffective patches and to detect long-term trends:
 {memory_summary}
 
 Return ONLY a JSON object with EXACTLY these keys:

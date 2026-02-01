@@ -8,6 +8,7 @@ from .data_pipeline_analyst import DataPipelineAnalyst
 from .memory_store import MemoryStore
 from .retrainer import Retrainer
 from .data_generator import SyntheticDataGenerator
+from .memory_summarizer import MemorySummarizer
 from pathlib import Path
 import yaml
 
@@ -24,10 +25,15 @@ _memory = None
 _retrainer = None
 _generator = None
 
+_summarizer = None
 
 def _ensure_singletons():
     global _llm, _monitor, _critic, _analyst, _memory, _retrainer, _generator
     from .llm_client import LLMClient
+
+    global _summarizer
+    if _summarizer is None:
+        _summarizer = MemorySummarizer()
 
     if _llm is None:
         _llm = LLMClient()
@@ -82,7 +88,10 @@ def node_config_critic(state: AgentState) -> AgentState:
 
 def node_data_analyst(state: AgentState) -> AgentState:
     _ensure_singletons()
-    data_suggestion = _analyst.suggest_data_fixes(state["diagnosis"])
+    data_suggestion = _analyst.suggest_data_fixes(
+        state["diagnosis"],
+        state.get("memory_summary", {})
+    )
     print("[GRAPH] Data suggestion:", data_suggestion)
     state["data_suggestion"] = data_suggestion
     return state
@@ -138,4 +147,12 @@ def node_memory(state: AgentState) -> AgentState:
     }
     _memory.append_incident(incident)
     print("[GRAPH] Incident stored in memory.")
+    return state
+
+def node_summarize_memory(state: AgentState) -> AgentState:
+    _ensure_singletons()
+    incidents = _memory.load_all()
+    summary = _summarizer.summarize(incidents)
+    print("[GRAPH] Memory summary generated.")
+    state["memory_summary"] = summary
     return state

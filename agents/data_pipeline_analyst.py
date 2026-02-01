@@ -4,7 +4,7 @@ class DataPipelineAnalyst:
     def __init__(self, llm: LLMClient):
         self.llm = llm
 
-    def suggest_data_fixes(self, diagnosis: dict) -> dict:
+    def suggest_data_fixes(self, diagnosis: dict, memory_summary: dict) -> dict:
         system_prompt = (
             "You are a data engineer. "
             "Given a diagnosis, suggest data quality or pipeline checks."
@@ -12,6 +12,9 @@ class DataPipelineAnalyst:
         user_prompt = f"""
 Diagnosis:
 {diagnosis}
+
+Here is a summary of past data issues and drift patterns:
+{memory_summary}
 
 Return JSON with:
 - data_checks: list of suggested new checks or validations

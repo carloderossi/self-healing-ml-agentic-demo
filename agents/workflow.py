@@ -1,5 +1,7 @@
 from langgraph.graph import StateGraph, END
 
+from .nodes import node_summarize_memory
+
 from .graph_state import AgentState
 from .nodes import (
     node_monitor,
@@ -21,9 +23,12 @@ def build_workflow():
     graph.add_node("new_data", node_new_data)
     graph.add_node("memory", node_memory)
 
+    graph.add_node("summarize", node_summarize_memory)
+
     graph.set_entry_point("monitor")
 
-    graph.add_edge("monitor", "critic")
+    graph.add_edge("monitor", "summarize")
+    graph.add_edge("summarize", "critic")
     graph.add_edge("critic", "data_analyst")
 
     # After data_analyst: branch on should_retrain

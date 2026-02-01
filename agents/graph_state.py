@@ -18,3 +18,6 @@ class AgentState(TypedDict, total=False):
     new_data_acquired: bool
     new_data_samples: Optional[int]
     post_newdata_accuracy: Optional[float]
+
+    memory_summary: Dict[str, Any]
+
